@@ -1,0 +1,5 @@
+onlyBuiltDependencies:
+  - esbuild
+
+patchedDependencies:
+  '@fastify/swagger@9.5.1': patches/@fastify__swagger@9.5.1.patch

@@ -1,0 +1,80 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: todo_test
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22.x'
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.12.4
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Create test environment file
+      run: |
+        cat > .env << EOF
+        NODE_ENV=test
+        PORT=3000
+        HOST=0.0.0.0
+        DATABASE_URL=postgresql://postgres:postgres@localhost:5432/todo_test
+        JWT_SECRET=test-jwt-secret-that-is-at-least-32-characters-long
+        EOF
+
+    - name: Run database migrations
+      run: pnpm db:migrate
+
+    - name: Run tests
+      run: pnpm test
+
+    - name: Upload test coverage (optional)
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-${{ matrix.node-version }}
+        path: coverage/
+        retention-days: 30 

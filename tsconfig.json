@@ -1,0 +1,16 @@
+{
+  "extends": "fastify-tsconfig",
+  "compilerOptions": {
+    "outDir": "dist",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["vitest/globals"],
+    "allowImportingTsExtensions": false,
+    "maxNodeModuleJsDepth": 0
+  },
+  "include": ["src/**/*.ts", "vitest.config.ts", "drizzle.config.ts"],
+  "exclude": ["node_modules", "dist"]
+} 
