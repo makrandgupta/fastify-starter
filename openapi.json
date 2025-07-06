@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "PropFolio API",
-    "description": "API for PropFolio",
+    "title": "TO DO API",
+    "description": "API for TO DO",
     "version": "1.0.0"
   },
   "components": {
@@ -64,442 +64,65 @@
         }
       }
     },
-    "/dashboard/summary": {
-      "get": {
-        "summary": "Get lease summary",
-        "tags": [
-          "dashboard"
-        ],
-        "description": "Get comprehensive financial summary for leases. Returns rent and utility balances, payments, and property information. Use leaseStatus parameter to filter by lease status (active, expired).",
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "exclusiveMinimum": true
-            },
-            "in": "query",
-            "name": "propertyId"
-          },
-          {
-            "schema": {},
-            "in": "query",
-            "name": "leaseStatus"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "leaseId": {
-                        "type": "number"
-                      },
-                      "propertyName": {
-                        "type": "string"
-                      },
-                      "addressLine1": {
-                        "type": "string"
-                      },
-                      "unitNumber": {
-                        "type": "string"
-                      },
-                      "tenantNames": {
-                        "type": "string"
-                      },
-                      "startDate": {
-                        "type": "string"
-                      },
-                      "currentRentAmount": {
-                        "type": "string"
-                      },
-                      "totalRentDue": {
-                        "type": "string"
-                      },
-                      "totalRentPayments": {
-                        "type": "string"
-                      },
-                      "rentBalance": {
-                        "type": "string"
-                      },
-                      "totalUtilityExpenses": {
-                        "type": "string"
-                      },
-                      "totalUtilityPayments": {
-                        "type": "string"
-                      },
-                      "utilityBalance": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "leaseId",
-                      "propertyName",
-                      "addressLine1",
-                      "unitNumber",
-                      "tenantNames",
-                      "startDate",
-                      "currentRentAmount",
-                      "totalRentDue",
-                      "totalRentPayments",
-                      "rentBalance",
-                      "totalUtilityExpenses",
-                      "totalUtilityPayments",
-                      "utilityBalance"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "field",
-                          "message"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "field",
-                          "message"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/dashboard/timeline": {
-      "get": {
-        "summary": "Get financial timeline",
-        "tags": [
-          "dashboard"
-        ],
-        "description": "Get financial timeline for dashboard with configurable filters. Returns all financial events (rent due, expenses, payments) organized chronologically with month dividers.",
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "exclusiveMinimum": true,
-              "default": 6
-            },
-            "in": "query",
-            "name": "months"
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "exclusiveMinimum": true
-            },
-            "in": "query",
-            "name": "leaseId"
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "exclusiveMinimum": true
-            },
-            "in": "query",
-            "name": "propertyId"
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "true",
-                "false"
-              ],
-              "default": "true"
-            },
-            "in": "query",
-            "name": "showRentDue"
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "true",
-                "false"
-              ],
-              "default": "true"
-            },
-            "in": "query",
-            "name": "showExpenses"
-          },
-          {
-            "schema": {},
-            "in": "query",
-            "name": "expenseCategory"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "eventDate": {
-                        "type": "string"
-                      },
-                      "eventType": {
-                        "type": "string",
-                        "enum": [
-                          "Rent Due",
-                          "Utility Bill",
-                          "Maintenance Bill",
-                          "Other Bill",
-                          "Rent Payment",
-                          "Utility Payment",
-                          "Maintenance Payment",
-                          "Other Payment",
-                          "Month Divider"
-                        ]
-                      },
-                      "leaseId": {
-                        "type": "number",
-                        "nullable": true
-                      },
-                      "tenantName": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "propertyName": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "unitNumber": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "debitAmount": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "creditAmount": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "details": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "eventDate",
-                      "eventType",
-                      "leaseId",
-                      "tenantName",
-                      "propertyName",
-                      "unitNumber",
-                      "debitAmount",
-                      "creditAmount",
-                      "details"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "field",
-                          "message"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "field",
-                          "message"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/expense/": {
+    "/task/": {
       "post": {
-        "summary": "Create expense",
+        "summary": "Create task",
         "tags": [
-          "expense"
+          "task"
         ],
-        "description": "Create a new expense record.",
+        "description": "Create a new task.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "leaseId": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "date": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "isPaid": {
-                    "type": "boolean",
-                    "default": false
-                  },
-                  "amount": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "category": {
-                    "type": "string",
-                    "enum": [
-                      "utility_bill",
-                      "maintenance",
-                      "other"
-                    ]
-                  },
-                  "vendor": {
+                  "name": {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 255
                   },
                   "description": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
+                  },
+                  "dueDate": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
+                  },
+                  "status": {
                     "type": "string",
-                    "minLength": 1,
-                    "maxLength": 500
+                    "enum": [
+                      "pending",
+                      "in_progress",
+                      "completed",
+                      "cancelled"
+                    ],
+                    "default": "pending"
                   }
                 },
                 "required": [
-                  "date",
-                  "amount",
-                  "category",
-                  "vendor",
-                  "description"
+                  "name"
                 ]
               }
             }
@@ -517,94 +140,47 @@
                     "id": {
                       "type": "number"
                     },
-                    "leaseId": {
-                      "type": "number",
-                      "nullable": true
-                    },
-                    "date": {
+                    "name": {
                       "type": "string"
-                    },
-                    "amount": {
-                      "type": "string"
-                    },
-                    "category": {
-                      "type": "string"
-                    },
-                    "vendor": {
-                      "type": "string",
-                      "nullable": true
                     },
                     "description": {
                       "type": "string",
                       "nullable": true
                     },
+                    "dueDate": {
+                      "type": "string",
+                      "nullable": true
+                    },
                     "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "in_progress",
+                        "completed",
+                        "cancelled"
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
                       "type": "string"
                     }
                   },
                   "required": [
                     "id",
-                    "leaseId",
-                    "date",
-                    "amount",
-                    "category",
-                    "vendor",
+                    "name",
                     "description",
-                    "status"
+                    "dueDate",
+                    "status",
+                    "createdAt",
+                    "updatedAt"
                   ]
                 }
               }
             }
           },
           "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "409": {
             "description": "Default Response",
             "content": {
               "application/json": {
@@ -655,23 +231,32 @@
         }
       },
       "get": {
-        "summary": "Lists expenses",
+        "summary": "Lists tasks",
         "tags": [
-          "expense"
+          "task"
         ],
-        "description": "List all expenses with unit information. Supports filtering by leaseId and status.",
+        "description": "List all tasks. Supports filtering by status and due date range.",
         "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "leaseId"
-          },
           {
             "schema": {},
             "in": "query",
             "name": "status"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "dueDateFrom"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "dueDateTo"
           }
         ],
         "responses": {
@@ -687,49 +272,41 @@
                       "id": {
                         "type": "number"
                       },
-                      "leaseId": {
-                        "type": "number",
-                        "nullable": true
-                      },
-                      "unitNumber": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "date": {
+                      "name": {
                         "type": "string"
-                      },
-                      "amount": {
-                        "type": "string"
-                      },
-                      "category": {
-                        "type": "string"
-                      },
-                      "vendor": {
-                        "type": "string",
-                        "nullable": true
                       },
                       "description": {
                         "type": "string",
                         "nullable": true
                       },
+                      "dueDate": {
+                        "type": "string",
+                        "nullable": true
+                      },
                       "status": {
+                        "type": "string",
+                        "enum": [
+                          "pending",
+                          "in_progress",
+                          "completed",
+                          "cancelled"
+                        ]
+                      },
+                      "createdAt": {
                         "type": "string"
                       },
-                      "summary": {
+                      "updatedAt": {
                         "type": "string"
                       }
                     },
                     "required": [
                       "id",
-                      "leaseId",
-                      "unitNumber",
-                      "date",
-                      "amount",
-                      "category",
-                      "vendor",
+                      "name",
                       "description",
+                      "dueDate",
                       "status",
-                      "summary"
+                      "createdAt",
+                      "updatedAt"
                     ]
                   }
                 }
@@ -757,331 +334,59 @@
         }
       }
     },
-    "/lease/": {
-      "post": {
-        "summary": "Create lease",
-        "tags": [
-          "lease"
-        ],
-        "description": "Create a new lease and link it to specified tenants.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "unitId": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "startDate": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "endDate": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "rentDeposit": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "rentAmount": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "status": {
-                    "type": "string",
-                    "enum": [
-                      "active",
-                      "inactive",
-                      "expired",
-                      "terminated"
-                    ],
-                    "default": "active"
-                  },
-                  "tenantIds": {
-                    "type": "array",
-                    "items": {
-                      "type": "integer",
-                      "minimum": 0,
-                      "exclusiveMinimum": true
-                    },
-                    "minItems": 1
-                  }
-                },
-                "required": [
-                  "unitId",
-                  "startDate",
-                  "endDate",
-                  "rentDeposit",
-                  "rentAmount",
-                  "tenantIds"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "unitId": {
-                      "type": "number"
-                    },
-                    "startDate": {
-                      "type": "string"
-                    },
-                    "endDate": {
-                      "type": "string"
-                    },
-                    "rentDeposit": {
-                      "type": "string"
-                    },
-                    "rentAmount": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    },
-                    "tenantIds": {
-                      "type": "array",
-                      "items": {
-                        "type": "number"
-                      }
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "unitId",
-                    "startDate",
-                    "endDate",
-                    "rentDeposit",
-                    "rentAmount",
-                    "status",
-                    "tenantIds"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "Lists leases",
-        "tags": [
-          "lease"
-        ],
-        "description": "List all leases with unit and tenant information.",
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "current_rent": {
-                        "type": "string"
-                      },
-                      "unit_number": {
-                        "type": "string"
-                      },
-                      "start_date": {
-                        "type": "string"
-                      },
-                      "tenants": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "status": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id",
-                      "current_rent",
-                      "unit_number",
-                      "start_date",
-                      "tenants",
-                      "status"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/lease/{id}": {
+    "/task/{id}": {
       "put": {
-        "summary": "Update lease",
+        "summary": "Update task",
         "tags": [
-          "lease"
+          "task"
         ],
-        "description": "Update an existing lease information. Cannot add/remove tenants.",
+        "description": "Update an existing task.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "startDate": {
+                  "name": {
                     "type": "string",
-                    "format": "date"
+                    "minLength": 1,
+                    "maxLength": 255
                   },
-                  "endDate": {
-                    "type": "string",
-                    "format": "date"
+                  "description": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
                   },
-                  "rentDeposit": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "rentAmount": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
+                  "dueDate": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
                   },
                   "status": {
                     "type": "string",
                     "enum": [
-                      "active",
-                      "inactive",
-                      "expired",
-                      "terminated"
+                      "pending",
+                      "in_progress",
+                      "completed",
+                      "cancelled"
                     ]
                   }
                 }
@@ -1110,22 +415,27 @@
                     "id": {
                       "type": "number"
                     },
-                    "unitId": {
-                      "type": "number"
-                    },
-                    "startDate": {
+                    "name": {
                       "type": "string"
                     },
-                    "endDate": {
-                      "type": "string"
+                    "description": {
+                      "type": "string",
+                      "nullable": true
                     },
-                    "rentDeposit": {
-                      "type": "string"
-                    },
-                    "rentAmount": {
-                      "type": "string"
+                    "dueDate": {
+                      "type": "string",
+                      "nullable": true
                     },
                     "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "in_progress",
+                        "completed",
+                        "cancelled"
+                      ]
+                    },
+                    "createdAt": {
                       "type": "string"
                     },
                     "updatedAt": {
@@ -1134,12 +444,11 @@
                   },
                   "required": [
                     "id",
-                    "unitId",
-                    "startDate",
-                    "endDate",
-                    "rentDeposit",
-                    "rentAmount",
+                    "name",
+                    "description",
+                    "dueDate",
                     "status",
+                    "createdAt",
                     "updatedAt"
                   ]
                 }
@@ -1194,30 +503,6 @@
               }
             }
           },
-          "409": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
           "500": {
             "description": "Default Response",
             "content": {
@@ -1233,1160 +518,6 @@
                       "items": {
                         "type": "string"
                       }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/payment/": {
-      "post": {
-        "summary": "Create payment",
-        "tags": [
-          "payment"
-        ],
-        "description": "Create a new payment record and update related status.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "leaseId": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "amount": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "paymentDate": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "rentDueId": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "expenseId": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "paymentMethod": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "referenceNumber": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "notes": {
-                    "type": "string",
-                    "nullable": true
-                  }
-                },
-                "required": [
-                  "leaseId",
-                  "amount"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "amount": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "amount"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "Lists payments",
-        "tags": [
-          "payment"
-        ],
-        "description": "List all payment records with associated unit and lease details.",
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "unitNumber": {
-                        "type": "string"
-                      },
-                      "paymentDate": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "dueDate": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "paymentAmount": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "amountDue": {
-                        "type": "string",
-                        "nullable": true
-                      }
-                    },
-                    "required": [
-                      "id",
-                      "unitNumber",
-                      "paymentDate",
-                      "dueDate",
-                      "paymentAmount",
-                      "amountDue"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/rent/due/": {
-      "get": {
-        "summary": "Lists rent due",
-        "tags": [
-          "rent-due"
-        ],
-        "description": "List all rent due records with unit and tenant information. Supports filtering by leaseId and status.",
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "leaseId"
-          },
-          {
-            "schema": {},
-            "in": "query",
-            "name": "status"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "amountDue": {
-                        "type": "string"
-                      },
-                      "dueDate": {
-                        "type": "string"
-                      },
-                      "status": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "unitNumber": {
-                        "type": "string"
-                      },
-                      "tenantFirstName": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "description": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id",
-                      "amountDue",
-                      "dueDate",
-                      "status",
-                      "unitNumber",
-                      "tenantFirstName",
-                      "description"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/rent/increase/": {
-      "post": {
-        "summary": "Create rent increase",
-        "tags": [
-          "rent-increase"
-        ],
-        "description": "Create a new rent increase record.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "leaseId": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "previousAmount": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "newAmount": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "effectiveDate": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "increasePercentage": {
-                    "type": "string",
-                    "pattern": "^\\d+(\\.\\d{1,4})?$"
-                  },
-                  "notificationDate": {
-                    "type": "string",
-                    "nullable": true,
-                    "format": "date"
-                  },
-                  "notificationSent": {
-                    "type": "boolean",
-                    "nullable": true
-                  }
-                },
-                "required": [
-                  "leaseId",
-                  "previousAmount",
-                  "newAmount",
-                  "effectiveDate"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "id"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "Lists rent increase",
-        "tags": [
-          "rent-increase"
-        ],
-        "description": "List all rent increase records with unit information.",
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "effectiveDate": {
-                        "type": "string"
-                      },
-                      "newAmount": {
-                        "type": "string"
-                      },
-                      "notificationDate": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "notificationSent": {
-                        "type": "boolean",
-                        "nullable": true
-                      },
-                      "previousAmount": {
-                        "type": "string"
-                      },
-                      "unitNumber": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id",
-                      "effectiveDate",
-                      "newAmount",
-                      "notificationDate",
-                      "notificationSent",
-                      "previousAmount",
-                      "unitNumber"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/tenant/": {
-      "post": {
-        "summary": "Create tenant",
-        "tags": [
-          "tenant"
-        ],
-        "description": "Create a new tenant.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "unitId": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "firstName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 100
-                  },
-                  "lastName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 100
-                  },
-                  "email": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          ""
-                        ]
-                      }
-                    ]
-                  },
-                  "phone": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "maxLength": 20
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          ""
-                        ]
-                      }
-                    ]
-                  },
-                  "emergencyContactName": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "maxLength": 100
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          ""
-                        ]
-                      }
-                    ]
-                  },
-                  "emergencyContactPhone": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "maxLength": 20
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          ""
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "required": [
-                  "unitId",
-                  "firstName",
-                  "lastName"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "unitId": {
-                      "type": "number"
-                    },
-                    "firstName": {
-                      "type": "string"
-                    },
-                    "lastName": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "phone": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "emergencyContactName": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "emergencyContactPhone": {
-                      "type": "string",
-                      "nullable": true
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "unitId",
-                    "firstName",
-                    "lastName",
-                    "email",
-                    "phone",
-                    "emergencyContactName",
-                    "emergencyContactPhone"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "Lists tenants",
-        "tags": [
-          "tenant"
-        ],
-        "description": "List all tenants with their associated unit number (if any).",
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "unit_number": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "first_name": {
-                        "type": "string"
-                      },
-                      "last_name": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "phone_number": {
-                        "type": "string",
-                        "nullable": true
-                      }
-                    },
-                    "required": [
-                      "id",
-                      "unit_number",
-                      "first_name",
-                      "last_name",
-                      "email",
-                      "phone_number"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/tenant/{id}": {
-      "put": {
-        "summary": "Update tenant",
-        "tags": [
-          "tenant"
-        ],
-        "description": "Update an existing tenant information.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "unitId": {
-                    "type": "integer",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
-                  },
-                  "firstName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 100
-                  },
-                  "lastName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 100
-                  },
-                  "email": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          ""
-                        ]
-                      }
-                    ]
-                  },
-                  "phone": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "maxLength": 20
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          ""
-                        ]
-                      }
-                    ]
-                  },
-                  "emergencyContactName": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "maxLength": 100
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          ""
-                        ]
-                      }
-                    ]
-                  },
-                  "emergencyContactPhone": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "maxLength": 20
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          ""
-                        ]
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "path",
-            "name": "id",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "unitId": {
-                      "type": "number"
-                    },
-                    "firstName": {
-                      "type": "string"
-                    },
-                    "lastName": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "phone": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "emergencyContactName": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "emergencyContactPhone": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "updatedAt": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "unitId",
-                    "firstName",
-                    "lastName",
-                    "email",
-                    "phone",
-                    "emergencyContactName",
-                    "emergencyContactPhone",
-                    "updatedAt"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/unit/": {
-      "get": {
-        "summary": "Lists units",
-        "tags": [
-          "unit"
-        ],
-        "description": "List all units with their basic information.",
-        "responses": {
-          "200": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "unit_number": {
-                        "type": "string"
-                      },
-                      "base_rent": {
-                        "type": "string"
-                      },
-                      "status": {
-                        "type": "string"
-                      },
-                      "square_feet": {
-                        "type": "number",
-                        "nullable": true
-                      },
-                      "bathrooms": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "bedrooms": {
-                        "type": "number",
-                        "nullable": true
-                      }
-                    },
-                    "required": [
-                      "id",
-                      "unit_number",
-                      "base_rent",
-                      "status",
-                      "square_feet",
-                      "bathrooms",
-                      "bedrooms"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
                     }
                   },
                   "required": [
@@ -2404,10 +535,6 @@
     {
       "url": "http://localhost:3000",
       "description": "Local server"
-    },
-    {
-      "url": "https://propfolio-api-production.up.railway.app",
-      "description": "Production server"
     }
   ],
   "security": [
@@ -2421,40 +548,8 @@
       "description": "Authentication related end-points"
     },
     {
-      "name": "property",
-      "description": "Property related end-points"
-    },
-    {
-      "name": "unit",
-      "description": "Unit related end-points"
-    },
-    {
-      "name": "lease",
-      "description": "Lease related end-points"
-    },
-    {
-      "name": "rent",
-      "description": "Rent related end-points"
-    },
-    {
-      "name": "rent-due",
-      "description": "Rent due related end-points"
-    },
-    {
-      "name": "rent-increase",
-      "description": "Rent increase related end-points"
-    },
-    {
-      "name": "payment",
-      "description": "Payment related end-points"
-    },
-    {
-      "name": "expense",
-      "description": "Expense related end-points"
-    },
-    {
-      "name": "dashboard",
-      "description": "Dashboard related end-points"
+      "name": "task",
+      "description": "Task related end-points"
     }
   ]
 }
