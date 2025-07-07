@@ -1,6 +1,6 @@
 # TO DO API
 
-A Fastify-based REST API for property portfolio management with PostgreSQL database and Drizzle ORM.
+A Fastify-based REST API starter with PostgreSQL database and Drizzle ORM. Implements a simple task list as example.
 
 ## Prerequisites
 
